@@ -14,9 +14,9 @@ class Animator extends EventEmitter
   handleRotation: (clockwise) =>
     rotateCoordinates = (x, y, z) ->
       if clockwise
-        [y, (Settings.blockSize - 1) * Settings.mapSize - x, z]
+        [y, Settings.blockSize * Settings.mapSize - x, z]
       else
-        [(Settings.blockSize - 1) * Settings.mapSize - y, x, z]
+        [Settings.blockSize * Settings.mapSize - y, x, z]
 
     [x, y, z] = @marble.getCoordinates()
     @marble.setCoordinates rotateCoordinates(x, y, z)...
@@ -42,9 +42,9 @@ class Animator extends EventEmitter
         @marble.setVelocities -vY, vX, vZ
 
   blockAtWorldCoordinates: (x, y, z) ->
-    bX = Math.floor(x / Settings.blockSize)
-    bY = Math.floor(y / Settings.blockSize)
-    bZ = Math.floor(z / Settings.blockSize)
+    bX = Math.floor(x / (Settings.blockSize + 1))
+    bY = Math.floor(y / (Settings.blockSize + 1))
+    bZ = Math.floor(z / (Settings.blockSize + 1))
 
     if 0 <= bX < @map.size and
        0 <= bY < @map.size and
@@ -288,12 +288,12 @@ class Animator extends EventEmitter
         # Check if the marble and the block potentially hit by comparing their
         # coordinates. If two of these match, the marble and the block are aligned
         # on one axis.
-        xMatch = mX >= bX * (Settings.blockSize - 1) and
-                 mX <  (bX + 1) * (Settings.blockSize - 1)
-        yMatch = mY >= bY * (Settings.blockSize - 1) and
-                 mY <  (bY + 1) * (Settings.blockSize - 1)
-        zMatch = mZ >= bZ * (Settings.blockSize - 1) and
-                 mZ <  (bZ + 1) * (Settings.blockSize - 1)
+        xMatch = mX >= bX * Settings.blockSize and
+                 mX <  (bX + 1) * Settings.blockSize
+        yMatch = mY >= bY * Settings.blockSize and
+                 mY <  (bY + 1) * Settings.blockSize
+        zMatch = mZ >= bZ * Settings.blockSize and
+                 mZ <  (bZ + 1) * Settings.blockSize
 
         # Hit test with block in z direction.
         # First check if the x and y coordinates match, i.e. if the marble
@@ -301,8 +301,8 @@ class Animator extends EventEmitter
         # Then check if the marble is below the blocks top.
         # If it is, push the marble out of the block and let it bounce off.
         if xMatch and yMatch
-          if mZ - r < (bZ + 1) * (Settings.blockSize - 1)
-            mZ = Math.round(mZ / (Settings.blockSize - 1)) * (Settings.blockSize - 1) + r
+          if mZ - r < (bZ + 1) * Settings.blockSize
+            mZ = Math.round(mZ / Settings.blockSize) * Settings.blockSize + r
 
             vZ = -vZ * Settings.blockDampening
             vZ = 0 if Math.abs(vZ) < 0.5
@@ -313,18 +313,18 @@ class Animator extends EventEmitter
         # First check if the x and z coordinates match, i.e. if the marble and
         # the block are aligned on the y axis.
         if xMatch and zMatch
-          blockLowY  = bY * (Settings.blockSize - 1)
-          blockMidY  = bY * (Settings.blockSize - 1) + (Settings.blockSize - 1) / 2
-          blockHighY = (bY + 1) * (Settings.blockSize - 1)
+          blockLowY  = bY * Settings.blockSize
+          blockMidY  = bY * Settings.blockSize + Settings.blockSize / 2
+          blockHighY = (bY + 1) * Settings.blockSize
 
           # Check if the block and the marble overlap. Determine in which half
           # of the block the marble lies and push it out accordingly.
           if mY + r > blockLowY and mY - r < blockHighY
             vY = -vY * Settings.blockDampening
             if mY <= blockMidY
-              mY = Math.round(mY / (Settings.blockSize - 1)) * (Settings.blockSize - 1) - r
+              mY = Math.round(mY / Settings.blockSize) * Settings.blockSize - r
             else
-              mY = Math.round(mY / (Settings.blockSize - 1)) * (Settings.blockSize - 1) + r
+              mY = Math.round(mY / Settings.blockSize) * Settings.blockSize + r
 
             hit = yes
 
@@ -332,18 +332,18 @@ class Animator extends EventEmitter
         # First check if the y and z coordinates match, i.e. if the marble and
         # the block are aligned on the x axis.
         if yMatch and zMatch
-          blockLowX  = bX * (Settings.blockSize - 1)
-          blockMidX  = bX * (Settings.blockSize - 1) + (Settings.blockSize - 1) / 2
-          blockHighX = (bX + 1) * (Settings.blockSize - 1)
+          blockLowX  = bX * Settings.blockSize
+          blockMidX  = bX * Settings.blockSize + Settings.blockSize / 2
+          blockHighX = (bX + 1) * Settings.blockSize
 
           # Check if the block and the marble overlap. Determine in which half
           # of the block the marble lies and push it out accordingly.
           if mX + r > blockLowX and mX - r < blockHighX
             vX = -vX * Settings.blockDampening
             if mX <= blockMidX
-              mX = Math.round(mX / (Settings.blockSize - 1)) * (Settings.blockSize - 1) - r
+              mX = Math.round(mX / Settings.blockSize) * Settings.blockSize - r
             else
-              mX = Math.round(mX / (Settings.blockSize - 1)) * (Settings.blockSize - 1) + r
+              mX = Math.round(mX / Settings.blockSize) * Settings.blockSize + r
 
             hit = yes
 
