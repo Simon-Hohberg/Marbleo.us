@@ -5,7 +5,7 @@
 # layers together describe the block.
 #
 class Block extends EventEmitter
-  # Determines wether a given block can be stacked on top of another one.
+  # Determines whether a given block can be stacked on top of another one.
   @canStack: (bottom, top) ->
     [midType, midRotation] = top.getProperty 'middle'
     [topType, topRotation] = bottom.getProperty 'top'

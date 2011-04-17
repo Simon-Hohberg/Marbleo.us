@@ -1,4 +1,4 @@
-# Models the path a marble can take a directed graph
+# Models the path a marble can take, a directed graph
 # where each node’s maximum degree is two.
 class Path
   @nodesForBlock: (block) ->

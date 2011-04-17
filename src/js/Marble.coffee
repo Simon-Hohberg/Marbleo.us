@@ -27,5 +27,5 @@ class Marble
 
   getTrackSpeed: -> @trackSpeed
 
-  # Sets the needs redraw state of the block.
+  # Sets the "needs redraw state" of the block.
   setNeedsRedraw: (@needsRedraw) ->

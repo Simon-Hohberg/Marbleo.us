@@ -121,7 +121,7 @@ class Animator extends EventEmitter
       else
         null
 
-    # Detect if marble is on tracks
+    # Detect if marble is on a track
     unless @marble.isOnTrack
       # Get the block under the marble, if any
       block = @blockAtWorldCoordinates(mX, mY, mZ - r - 1)
@@ -200,7 +200,7 @@ class Animator extends EventEmitter
 
           distance = VECTOR_LENGTH(dX, dY, dZ)
 
-      # Apply graviation based on slope
+      # Apply gravitation based on slope
       dXY   = Math.sqrt dX * dX + dY * dY
       slope = unless (isNaN(dZ / dXY)) then (dZ / dXY) else Infinity
       a     = Math.atan(slope) / (Math.PI / 2)

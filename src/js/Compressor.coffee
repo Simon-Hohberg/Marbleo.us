@@ -12,7 +12,7 @@ class Compressor
   #           encode the gap into the bytestream
   #         encode the block into the bytestream
   #       else if the position is empty
-  #         increase the size of the current cap by one
+  #         increase the size of the current gap by one
   #
   # Encode the bytestream using Base 64 Encoding with URL and Filename Safe
   # Alphabet
@@ -230,7 +230,7 @@ class Compressor
   #         9 J            26 a            43 r            60 8
   #        10 K            27 b            44 s            61 9
   #        11 L            28 c            45 t            62 - (minus)
-  #        12 M            29 d            46 u            63 _ (understrike)
+  #        12 M            29 d            46 u            63 _ (underscore)
   #        13 N            30 e            47 v
   #        14 O            31 f            48 w         (pad) =
   #        15 P            32 g            49 x
@@ -264,7 +264,7 @@ class Compressor
       return charCode - 48 + 52
     if charCode is 45 # minus
       return 62
-    if charCode is 95 # understrike
+    if charCode is 95 # underscore
       return 63
     throw new Error "Invalid argument, char must be of [A-Za-z0-9-_], was #{character}"
 

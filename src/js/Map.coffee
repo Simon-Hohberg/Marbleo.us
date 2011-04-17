@@ -125,7 +125,7 @@ class Map extends EventEmitter
       else
         return [x, y]
 
-  # Iterates over all block on the map, applies the given function.
+  # Iterates over all blocks on the map, applies the given function.
   blocksEach: (functionToApply) ->
     x = @size - 1
     while x + 1

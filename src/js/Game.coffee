@@ -167,7 +167,7 @@ class Game
     switch state.type
       when 'down'
         # If the user moves more than `Settings.draggingOffset` pixels
-        # from where the put the mouse down, start a drag operation
+        # from where the mouse was put down, start a drag operation
         if Math.abs(state.downX - mouseX) > Settings.draggingOffset or
            Math.abs(state.downY - mouseY) > Settings.draggingOffset
           @startDrag event
@@ -246,7 +246,7 @@ class Game
 
           lowestBlock.setProperty 'low', type, rotation, yes
         else
-          # Set the low type of the to nothing
+          # Set the low type of the block to nothing
           lowestBlock.setProperty 'low', null, 0, yes
 
       offset = if info.side is 'top' then 1 else 0
@@ -356,8 +356,6 @@ class Game
         return if topType isnt 'crossing-hole'
 
         [x, y, z] = block.getCoordinates()
-
-        #return if @map.getBlock x, y, z + 1
 
         [screenX, screenY] = @renderer.renderingCoordinatesForBlock block
 
